@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <title>Book Club</title>
+        <link rel="stylesheet" href="./static/home/style.css">
+        <script>
+            $(document).ready(function () {
+               listing();
+            });
+
+            function listing(){
+                $.ajax({
+                    type: "GET",
+                    url: "/book",
+                    data: {},
+                    success: function (res) {
+                        console.log(res["books"])
+                        let rows = res["books"]
+                        for (let i = 0; i < rows.length; i++){
+                            let image = rows[i]["image"]
+                            let title = rows[i]["title"]
+                            let name = rows[i]["name"]
+                            let comment = rows[i]["comment"]
+                            let author = rows[i]["author"]
+                            let url = rows[i]["url"]
+
+                            let temp_html = `
+                                <a style="text-decoration: none; color: black" href="${url}" target="_blank"><div class="card">
+                                    <div class="card-header">
+                                        <img src="${image}" alt="rover" />
+                                    </div>
+                                    <div class="card-body">
+                                        <span id="card_author" class="tag tag-pink">${author}</span>
+                                        <h4 class="card_title">
+                                            ${title}
+                                        </h4>
+                                        <p class="card_comment">
+                                            ${comment}
+                                        </p>
+                                        <p class="card_name">
+                                             -${name}
+                                        </p>
+                                    </div>
+                                </div></a>
+                            `
+                            $(".cards").append(temp_html)
+                        }
+                    }
+                })
+            }
+
+            function posting() {
+                let url = document.getElementById("url").value
+                let name = document.getElementById("name").value
+                let comment = document.getElementById("comment").value
+
+                $.ajax({
+                    type: "POST",
+                    url: "/book",
+                    data: {url_give: url, name_give: name, comment_give: comment},
+                    success: function (res) {
+                        alert(res["msg"])
+                        window.location.reload()
+                    }
+                })
+            }
+
+            function filter() {
+                let search = document.getElementById("searchBar").value.toLowerCase();
+                let card = document.getElementsByClassName("card");
+
+                for (let i = 0; i < card.length; i++){
+                    let card_title = card[i].getElementsByClassName("card_title");
+                    let card_name = card[i].getElementsByClassName("card_name");
+                    let card_author = card[i].getElementsByClassName("tag tag-pink");
+
+                    if (card_title[0].innerHTML.toLowerCase().includes(search) || card_name[0].innerHTML.toLowerCase().includes(search) || card_author[0].innerHTML.toLowerCase().includes(search)) {
+                        card[i].style.display = "grid"
+                    } else {
+                        card[i].style.display = "none"
+                    }
+                }
+            }
+
+            function register() {
+                let email = document.getElementById("register-email").value
+                let username = document.getElementById("register-username").value
+                let password = document.getElementById("register-password").value
+                let pwConfirm = document.getElementById("register-password-confirm").value
+
+                if (password != pwConfirm) {
+                    alert("입력하신 정보를 다시 확인 바랍니다.")
+                    window.location.reload()
+                } else {
+                    $.ajax({
+                        type: "POST",
+                        url: "/register",
+                        data: { email_give: email, username_give: username, password_give: password },
+                        success: function (res) {
+                            alert("회원가입이 완료 되었습니다.")
+                            window.location.reload()
+                        }
+                    })
+                }
+
+
+            }
+
+        </script>
+    </head>
+    <body>
+        <!-- 네비게이션 바 시작 -->
+        <nav role="navigation">
+            <div id="menuToggle">
+                <input type="checkbox">
+                <span></span>
+                <span></span>
+                <span></span>
+                <ul id="menu">
+                    <a href="#" id="login-show" onclick="login()"><h3 style="color: rgba(0,0,0,0.75)">로그인하세요</h3></a>
+                    <hr>
+                    <a href="/"><li>Home</li></a>
+                    <a href="/api"><li>API Search</li></a>
+                    <a href="/about"><li>About</li></a>
+                </ul>
+            </div>
+        </nav>
+        <!-- 네비게이션 바 끝 -->
+
+        <!-- 검색창 시작 -->
+        <div class="container">
+            <input id="searchBar" class="searchbar" type="text" onkeyup="filter()" placeholder="Search...">
+            <a id="btnSearch" class="btn-search"><i class="fa fa-search"></i></a>
+        </div>
+        <!-- 검색창 끝 -->
+
+        <!-- 타이틀 시작 -->
+        <div class="title">
+            <a href="/" style="text-decoration: none"><h1 style="font-size: 52px; color: tomato; text-shadow: 2px 2px 2px darkred">BOOK CLUB.</h1></a>
+            <span>
+                감명깊게 읽은 책을<br>
+                <strong><a style="text-decoration: none; color: whitesmoke" href="http://www.kyobobook.co.kr/index.laf" target="_blank">기록해보세요</a></strong>
+            </span>
+            <button class="button" id="post-show">Posting</button>
+        </div>
+        <!-- 타이틀 시작 -->
+
+        <!-- 로그인 Modal 시작 -->
+        <div class="background-login">
+            <div class="window-login">
+                <div class="popup-login">
+                    <div class="login-box">
+
+                        <div id="login-close" class="outer-login">
+                            <div class="inner-login">
+                                <label>Close</label>
+                            </div>
+                        </div>
+
+                        <h2>Login</h2>
+                        <form>
+                            <div class="user-box">
+                                <p class="login-label">Username</p>
+                                <input type="text">
+                            </div>
+                            <div class="user-box">
+                                <p class="login-label">Password</p>
+                                <input type="password">
+                            </div>
+                            <div>
+                                <a href="#" class="submit">Submit</a>
+                            </div>
+                        </form>
+                        <a href="#" class="sign-up" id="register-show">Sign Up →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 로그인 Modal 끝 -->
+
+        <!-- 회원가입 Modal 시작 -->
+        <div class="background-register">
+            <div class="window-register">
+                <div class="popup-register">
+                    <div class="login-box">
+
+                        <div id="register-close" class="outer-register">
+                            <div class="inner-register">
+                                <label>Close</label>
+                            </div>
+                        </div>
+
+                        <h2>Sign Up</h2>
+                        <form>
+                            <div class="user-box">
+                                <p class="register-label">E-Mail</p>
+                                <input id="register-email" type="email" autocomplete="off">
+                            </div>
+                            <div class="user-box">
+                                <p class="register-label">Username</p>
+                                <input id="register-username" type="text" autocomplete="off">
+                            </div>
+                            <div class="user-box">
+                                <p class="register-label">Password</p>
+                                <input id="register-password" type="password" autocomplete="off">
+                            </div>
+                            <div class="user-box">
+                                <p class="register-label">Confirm Your Password</p>
+                                <input id="register-password-confirm" type="password" autocomplete="off">
+                            </div>
+                            <div>
+                                <a href="#" class="submit" onclick="register()">Sign Up</a>
+                            </div>
+                        </form>
+                        <a href="#" class="sign-up" onclick="backToLogin()">← Back To Sign In</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 회원가입 Modal 끝 -->
+
+        <!-- 팝업창 시작-->
+        <div class="background">
+            <div class="window">
+                <div class="popup">
+
+                    <!-- 포스팅 시작 -->
+                    <div id="form-main">
+                        <div class="outer" id="post-close">
+                            <div class="inner">
+                                <label>Close</label>
+                            </div>
+                        </div>
+                        <div id="form-div">
+                            <form class="form" id="form1">
+                                <p class="url">
+                                    <input id="url" name="url" type="text" class="feedback-input" placeholder="URL" autocomplete="off">
+                                </p>
+                                <p class="name">
+                                    <input id="name" name="name" type="text" class="feedback-input" placeholder="Name" autocomplete="off">
+                                </p>
+                                <p class="text">
+                                    <textarea id="comment" name="text" class="feedback-input" placeholder="Comment" autocomplete="off"></textarea>
+                                </p>
+
+                                <div class="submit">
+                                    <input onclick="posting()" type="submit" id="button-blue" value="POST">
+                                    <div class="ease"></div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- 포스팅 끝 -->
+
+                </div>
+            </div>
+        </div>
+        <!-- 팝업창 끝-->
+
+        <!-- 카드 그리드 시작 -->
+        <div class="cards">
+
+        </div>
+        <!-- 카드 그리드 끝 -->
+
+
+        <script>
+          function showPosting() {
+            document.querySelector(".background").className = "background show-post";
+          }
+
+          function closePosting() {
+            document.querySelector(".background").className = "background";
+          }
+
+          document.querySelector("#post-show").addEventListener("click", showPosting);
+          document.querySelector("#post-close").addEventListener("click", closePosting);
+        </script>
+        <script>
+            function showLogin() {
+                document.querySelector(".background-login").className = "background-login show-login";
+            }
+            function closeLogin() {
+                document.querySelector(".background-login").className = "background-login";
+            }
+            document.querySelector("#login-show").addEventListener("click", showLogin);
+            document.querySelector("#login-close").addEventListener("click", closeLogin);
+
+            function showRegister() {
+                closeLogin();
+                document.querySelector(".background-register").className = "background-register show-register";
+            }
+            function closeRegister() {
+                document.querySelector(".background-register").className = "background-register";
+            }
+            document.querySelector("#register-show").addEventListener("click", showRegister);
+            document.querySelector("#register-close").addEventListener("click", closeRegister);
+
+            function backToLogin() {
+                closeRegister();
+                showLogin();
+            }
+        </script>
+    </body>
+</html>

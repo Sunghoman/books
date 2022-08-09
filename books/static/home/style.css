@@ -1,0 +1,1040 @@
+
+body
+{
+  margin: 0;
+  padding: 0;
+  background: #232323;
+  color: #cdcdcd;
+  font-family: "Avenir Next", "Avenir", sans-serif;
+}
+
+/* 메뉴 시작 */
+#menuToggle {
+  display: block;
+  position: relative;
+  top: 50px;
+  left: 50px;
+
+  z-index: 1;
+
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+#menuToggle a
+{
+  text-decoration: none;
+  color: #232323;
+
+  transition: color 0.3s ease;
+}
+
+#menuToggle a:hover
+{
+  color: tomato;
+}
+
+#menuToggle input
+{
+  display: block;
+  width: 40px;
+  height: 32px;
+  position: absolute;
+  top: -7px;
+  left: -5px;
+
+  cursor: pointer;
+
+  opacity: 0;
+  z-index: 2;
+
+  -webkit-touch-callout: none;
+}
+
+#menuToggle span
+{
+  display: block;
+  width: 33px;
+  height: 4px;
+  margin-bottom: 5px;
+  position: relative;
+
+  background: #cdcdcd;
+  border-radius: 3px;
+
+  z-index: 1;
+
+  transform-origin: 4px 0px;
+
+  transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+              background 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+              opacity 0.55s ease;
+}
+
+#menuToggle span:first-child
+{
+  transform-origin: 0% 0;
+}
+
+#menuToggle span:nth-last-child(2)
+{
+  transform-origin: 0% 100%;
+}
+
+#menuToggle input:checked ~ span
+{
+  opacity: 1;
+  transform: rotate(45deg) translate(-2px, -1px);
+  background: #232323;
+}
+
+#menuToggle input:checked ~ span:nth-last-child(3)
+{
+  opacity: 0;
+  transform: rotate(0deg) scale(0.2, 0.2);
+}
+
+#menuToggle input:checked ~ span:nth-last-child(2)
+{
+  transform: rotate(-45deg) translate(0, -1px);
+}
+
+#menu
+{
+  position: absolute;
+  width: 300px;
+  margin: -100px 0 0 -50px;
+  padding: 50px;
+  padding-top: 125px;
+
+  background: #ededed;
+  list-style-type: none;
+  -webkit-font-smoothing: antialiased;
+  /* to stop flickering of text in safari */
+
+  transform-origin: 0% 0%;
+  transform: translate(-100%, 0);
+
+  transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
+}
+
+#menu li
+{
+  padding: 10px 0;
+  font-size: 22px;
+}
+
+#menuToggle input:checked ~ ul
+{
+  transform: none;
+}
+/* 메뉴 끝 */
+
+/* 검색창 시작 */
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  align-items: center;
+}
+.searchbar {
+    float: right;
+    background-color: #232323;
+    color: white;
+    padding: 6px 10px;
+    width: 120px;
+    border: none;
+    margin-top: 1px;
+    margin-right: 8px;
+    font-family: "Segoe UI Light","Segoe UI","Segoe",Tahoma,Helvetica,Arial,sans-serif;
+    font-size: 1em;
+    font-weight: bold;
+    border-bottom: white solid 2px;
+    transition: 0.3s;
+}
+.searchbar::placeholder {
+    color: white;
+    font-family: "Segoe UI Light","Segoe UI","Segoe",Tahoma,Helvetica,Arial,sans-serif;
+    font-size: 1em;
+    font-weight: bold;
+    transition: 0.2s;
+}
+.searchbar:focus {
+    width: 400px;
+    font-family: "Segoe UI Light","Segoe UI","Segoe",Tahoma,Helvetica,Arial,sans-serif;
+    font-size: 1em;
+    font-weight: bold;
+    transition: 0.3s;
+    /* Stops the input box from inheriting the styling from the inputs on the request form */
+    border-bottom: white solid 2px;
+    outline: none;
+}
+.btn-search {
+    cursor: pointer;
+    color: #ffffff;
+    text-decoration: none !important;
+    font-family: "Segoe UI Light","Segoe UI","Segoe",Tahoma,Helvetica,Arial,sans-serif;
+    font-size: 1.5em;
+    padding-top: 5px;
+    margin-right: 40px;
+}
+.btn-search:hover {
+    transition: all 0.2s linear;
+    transform: scale(1.1);
+}
+/* 검색창 끝 */
+
+/* api 검색 시작 */
+.api_search {
+    margin-top: 55px;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 1s;
+    width: 50px;
+    height: 50px;
+    background: tomato;
+    box-sizing: border-box;
+    border-radius: 25px;
+    border: 4px solid white;
+    padding: 5px;
+}
+
+.api_search:hover,
+.api_search:valid {
+    width: 200px;
+    cursor: pointer;
+}
+
+.api_search:hover input,
+.api_search:valid input {
+    display: block;
+}
+
+.api_search:hover .fa,
+.api_search:valid .fa {
+    background: tomato;
+    color: whitesmoke;
+}
+
+.api_input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;;
+    height: 42px;
+    line-height: 30px;
+    outline: 0;
+    border: 0;
+    display: none;
+    font-size: 1em;
+    border-radius: 20px;
+    padding: 0 20px;
+    color: tomato;
+    text-decoration: none;
+}
+.fa{
+    box-sizing: border-box;
+    padding: 10px;
+    width: 42px;
+    height: 42px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-radius: 50%;
+    color: whitesmoke;
+    text-align: center;
+    font-size: 1.2em;
+    transition: all 1s;
+}
+.clear-btn {
+    display: none;
+    position: absolute;
+    top: 70px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    font-size: 20px;
+    color: whitesmoke;
+    text-align: center;
+    width: 100%;
+}
+form:valid a {
+  display: block;
+}
+
+/* api 검색 끝 */
+
+.title {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    font-family: "Avenir Next", "Avenir", sans-serif;
+    margin: auto;
+    width: 30%;
+}
+.button {
+  width: 140px;
+  margin: auto;
+  margin-top: 45px;
+  height: 45px;
+  font-family: "Avenir Next", "Avenir", sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  color: #000;
+  background-color: #656565;
+  border: none;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+
+  }
+
+.button:hover {
+  background-color: #dcdcdc;
+  box-shadow: 0px 15px 20px rgba(175, 175, 175, 0.4);
+  color: #000000;
+  transform: translateY(-7px);
+}
+
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+
+  /* 숨기기 */
+  z-index: -1;
+  opacity: 0;
+}
+
+.show-post {
+  opacity: 1;
+  z-index: 1000;
+  transition: all .5s;
+}
+
+.window {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/*팝업창 시작*/
+.popup {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  padding-top: -20px;
+  transform: translate(-50%, -50%);
+  background: rgba(0,0,0,0.8);
+  box-shadow: 0 2px 7px rgba(255, 255, 255, 0.05);
+  border-radius: 7px;
+
+  /* 임시 지정 */
+  width: 660px;
+  height: 570px;
+
+  /* 초기에 약간 아래에 배치 */
+  transform: translate(-50%, -35%);
+}
+
+.show-post .popup .close {
+  transform: translate(-50%, -50%);
+  transition: all .5s;
+}
+/*팝업창 끝*/
+
+
+/* 팝업창 닫기 버튼 시작*/
+.outer {
+  position: relative;
+  width: 50px;
+  cursor: pointer;
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-bottom: -75px;
+}
+
+.inner {
+  width: inherit;
+  text-align: center;
+}
+
+label {
+  font-size: .8em;
+  line-height: 4em;
+  text-transform: uppercase;
+  color: #ffffff;
+  transition: all .3s ease-in;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.inner:before, .inner:after {
+  position: absolute;
+  content: '';
+  height: 1px;
+  width: inherit;
+  background: #ffffff;
+  left: 0;
+  transition: all .3s ease-in;
+}
+
+.inner:before {
+  top: 50%;
+  transform: rotate(45deg);
+}
+
+.inner:after {
+  bottom: 50%;
+  transform: rotate(-45deg);
+}
+
+.outer:hover label {
+  opacity: 1;
+}
+
+.outer:hover .inner:before,
+.outer:hover .inner:after {
+  transform: rotate(0);
+}
+
+.outer:hover .inner:before {
+  top: 0;
+}
+
+.outer:hover .inner:after {
+  bottom: 0;
+}
+/* 팝업창 닫기 버튼 끝 */
+
+/* 팝업창 시작 */
+
+#form-main{
+	width:100%;
+	float:left;
+	padding-top:0px;
+}
+
+#form-div {
+	background-color:rgba(72,72,72,0.4);
+	padding-left: 35px;
+	padding-right: 35px;
+	padding-top: 50px;
+	padding-bottom: 50px;
+	width: 450px;
+	float: left;
+	left: 50%;
+	position: absolute;
+    margin-top: 30px;
+	margin-left: -260px;
+    -moz-border-radius: 7px;
+    -webkit-border-radius: 7px;
+}
+
+.feedback-input {
+	color:#3c3c3c;
+	font-family: Helvetica, Arial, sans-serif;
+    font-weight:500;
+	font-size: 18px;
+	border-radius: 0;
+	line-height: 22px;
+  background: rgba(0,0,0,0.8);
+	padding: 13px 13px 13px 54px;
+	margin-bottom: 10px;
+	width:100%;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	box-sizing: border-box;
+    border: 3px solid rgba(0,0,0,0);
+}
+
+.feedback-input:focus{
+	background: #232323;
+	border: 1px solid tomato;
+	color: whitesmoke;
+	outline: none;
+    padding: 13px 13px 13px 54px;
+}
+
+.focused{
+	color:#30aed6;
+	border:#30aed6 solid 3px;
+}
+
+#name{
+	background-size: 30px 30px;
+	background-position: 11px 8px;
+}
+
+#name:focus{
+	background-size: 30px 30px;
+	background-position: 8px 5px;
+    background-position: 11px 8px;
+}
+
+#email{
+	background-size: 30px 30px;
+	background-position: 11px 8px;
+}
+
+#email:focus{
+	background-size: 30px 30px;
+    background-position: 11px 8px;
+	background-repeat: no-repeat;
+}
+
+#comment{
+	background-size: 30px 30px;
+	background-position: 11px 8px;
+	background-repeat: no-repeat;
+}
+
+textarea {
+    width: 100%;
+    height: 150px;
+    line-height: 150%;
+    resize: vertical;
+}
+
+input:hover, textarea:hover,
+input:focus, textarea:focus {
+	background-color: #232323;
+}
+
+#button-blue{
+	font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+	float:left;
+	width: 100%;
+	border: #fbfbfb solid 2px;
+	cursor:pointer;
+	background-color: tomato;
+	color:white;
+	font-size:24px;
+	padding-top:22px;
+	padding-bottom:22px;
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	transition: all 0.3s;
+    margin-top:-4px;
+    font-weight:700;
+}
+
+#button-blue:hover{
+	background-color: rgba(0,0,0,0);
+	color: tomato;
+}
+
+.submit:hover {
+	color: tomato;
+}
+
+.ease {
+	width: 0px;
+	height: 74px;
+	background-color: #fbfbfb;
+	-webkit-transition: .3s ease;
+	-moz-transition: .3s ease;
+	-o-transition: .3s ease;
+	-ms-transition: .3s ease;
+	transition: .3s ease;
+}
+
+.submit:hover .ease{
+  width:100%;
+  background-color:white;
+}
+
+@media only screen and (max-width: 580px) {
+	#form-div{
+		left: 3%;
+		margin-right: 3%;
+		width: 88%;
+		margin-left: 0;
+		padding-left: 3%;
+		padding-right: 3%;
+	}
+}
+/* 팝업창 끝*/
+
+/* 본문 시작 */
+.cards {
+  width: 1350px;
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  margin: auto;
+  margin-top: 100px;
+  color: black;
+}
+.card {
+  margin-top: 50px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 20px rgba(131, 131, 131, 0.18);
+  overflow: hidden;
+  width: 300px;
+  font-family: "Avenir Next", "Malgun Gothic", serif;
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -ms-transform: scale(1);
+  -o-transform: scale(1);
+  box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.44);
+}
+.card:hover {
+  box-shadow: 0px 0px 5px 7px rgba(225, 225, 225, 0.2);
+  -webkit-transform: scale(1.1);
+  -moz-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  -o-transform: scale(1.1);
+  transition: 0.5s all;
+}
+
+.card-header img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+}
+.card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px;
+  min-height: 250px;
+  max-height: 250px;
+  background: #e7e6e6;
+}
+.card-body > .date {
+  margin-bottom: auto;
+}
+
+.tag {
+  background: #cccccc;
+  border-radius: 50px;
+  font-size: 12px;
+  margin: 0;
+  color: #fff;
+  padding: 2px 10px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.tag-teal {
+  background-color: #47bcd4;
+}
+.tag-purple {
+  background-color: #5e76bf;
+}
+.tag-pink {
+  background-color: #cd5b9f;
+}
+
+.card-body p {
+  font-size: 13px;
+  margin: 0 0 40px;
+}
+.user {
+  display: flex;
+  margin-top: auto;
+}
+
+.user img {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+.user-info h5 {
+  margin: 0;
+}
+.user-info small {
+  color: #545d7a;
+}
+
+/* 본문 끝 */
+
+/* 로그인 박스 시작 */
+
+.login-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  padding: 40px;
+  transform: translate(-50%, -50%);
+  background: rgba(0,0,0,.5);
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(0,0,0,.6);
+  border-radius: 10px;
+}
+
+.login-box h2 {
+  margin: 0 0 30px;
+  padding: 0;
+  color: #fff;
+  text-align: center;
+}
+
+.login-box .user-box {
+  position: relative;
+}
+
+.login-box .user-box input {
+  width: 100%;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #fff;
+  margin-bottom: 30px;
+  border: none;
+  border-bottom: 1px solid #fff;
+  outline: none;
+  background: transparent;
+}
+.login-box .user-box label {
+  position: absolute;
+  top:0;
+  left: 0;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #fff;
+  pointer-events: none;
+  transition: .5s;
+}
+
+.login-box .user-box input:focus ~ label,
+.login-box .user-box input:valid ~ label {
+  top: -20px;
+  left: 0;
+  color: tomato;
+  font-size: 12px;
+}
+
+.login-box form a {
+  position: relative;
+  display: inline-block;
+  padding: 10px 20px;
+  color: tomato;
+  font-size: 16px;
+  text-decoration: none;
+  text-transform: uppercase;
+  overflow: hidden;
+  transition: .5s;
+  margin-top: 40px;
+  letter-spacing: 4px
+}
+
+.login-box .submit:hover {
+  background: tomato;
+  color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 5px tomato,
+              0 0 25px tomato,
+              0 0 50px tomato,
+              0 0 100px tomato;
+}
+
+.login-box a span {
+  position: absolute;
+  display: block;
+}
+
+.background-login {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+
+  /* 숨기기 */
+  z-index: -1;
+  opacity: 0;
+}
+
+.show-login {
+  opacity: 1;
+  z-index: 1000;
+  transition: all .5s;
+}
+
+.window-login {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.popup-login {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  /* 임시 지정 */
+  width: 100px;
+  height: 100px;
+
+  /* 초기에 약간 아래에 배치 */
+  transform: translate(-50%, -40%);
+}
+
+.show-login .popup-login {
+  transform: translate(-50%, -50%);
+  transition: all .5s;
+}
+
+.login-label {
+    margin-bottom: -10px;
+}
+.sign-up {
+    text-decoration: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    color: rgb(255, 255, 255);
+}
+.outer-login {
+  position: relative;
+  width: 45px;
+  cursor: pointer;
+  margin-left: -25px;
+}
+.inner-login {
+  width: inherit;
+  text-align: center;
+}
+.inner-login:before, .inner-login:after {
+  position: absolute;
+  content: '';
+  height: 1px;
+  width: inherit;
+  background: white;
+  left: 0;
+  transition: all .3s;
+}
+.inner-login:before {
+  top: 50%;
+  transform: rotate(45deg);
+}
+
+.inner-login:after {
+  bottom: 50%;
+  transform: rotate(-45deg);
+}
+
+.outer-login:hover label {
+  opacity: 1;
+}
+
+.outer-login:hover .inner-login:before,
+.outer-login:hover .inner-login:after {
+  transform: rotate(0);
+}
+
+.outer-login:hover .inner-login:before {
+  top: 0;
+}
+
+.outer-login:hover .inner-login:after {
+  bottom: 0;
+}
+/* 로그인 박스 끝 */
+
+/* 회원가입 박스 시작 */
+
+.register-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  padding: 40px;
+  transform: translate(-50%, -50%);
+  background: rgba(0,0,0,.5);
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(0,0,0,.6);
+  border-radius: 10px;
+}
+
+.register-box h2 {
+  margin: 0 0 30px;
+  padding: 0;
+  color: #fff;
+  text-align: center;
+}
+
+.register-box .user-box {
+  position: relative;
+}
+
+.register-box .user-box input {
+  width: 100%;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #fff;
+  margin-bottom: 30px;
+  border: none;
+  border-bottom: 1px solid #fff;
+  outline: none;
+  background: transparent;
+}
+.register-box .user-box label {
+  position: absolute;
+  top:0;
+  left: 0;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #fff;
+  pointer-events: none;
+  transition: .5s;
+}
+
+.register-box .user-box input:focus ~ label,
+.register-box .user-box input:valid ~ label {
+  top: -20px;
+  left: 0;
+  color: tomato;
+  font-size: 12px;
+}
+
+.register-box form a {
+  position: relative;
+  display: inline-block;
+  padding: 10px 20px;
+  color: tomato;
+  font-size: 16px;
+  text-decoration: none;
+  text-transform: uppercase;
+  overflow: hidden;
+  transition: .5s;
+  margin-top: 40px;
+  letter-spacing: 4px
+}
+
+.login-box .submit:hover {
+  background: tomato;
+  color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 5px tomato,
+              0 0 25px tomato,
+              0 0 50px tomato,
+              0 0 100px tomato;
+}
+
+.login-box a span {
+  position: absolute;
+  display: block;
+}
+
+.background-register {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+
+  /* 숨기기 */
+  z-index: -1;
+  opacity: 0;
+}
+
+.show-register {
+  opacity: 1;
+  z-index: 1000;
+  transition: all .5s;
+}
+
+.window-register {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.popup-register {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  /* 임시 지정 */
+  width: 100px;
+  height: 100px;
+
+  /* 초기에 약간 아래에 배치 */
+  transform: translate(-50%, -40%);
+}
+
+.show-register .popup-register {
+  transform: translate(-50%, -50%);
+  transition: all .5s;
+}
+
+.register-label {
+    margin-bottom: -10px;
+}
+.sign-up {
+    text-decoration: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    color: rgb(255, 255, 255);
+}
+.outer-register {
+  position: relative;
+  width: 45px;
+  cursor: pointer;
+  margin-left: -25px;
+}
+.inner-register {
+  width: inherit;
+  text-align: center;
+}
+.inner-register:before, .inner-register:after {
+  position: absolute;
+  content: '';
+  height: 1px;
+  width: inherit;
+  background: white;
+  left: 0;
+  transition: all .3s;
+}
+.inner-register:before {
+  top: 50%;
+  transform: rotate(45deg);
+}
+
+.inner-register:after {
+  bottom: 50%;
+  transform: rotate(-45deg);
+}
+
+.outer-register:hover label {
+  opacity: 1;
+}
+
+.outer-register:hover .inner-register:before,
+.outer-register:hover .inner-register:after {
+  transform: rotate(0);
+}
+
+.outer-register:hover .inner-register:before {
+  top: 0;
+}
+
+.outer-register:hover .inner-register:after {
+  bottom: 0;
+}
+/* 로그인 박스 끝 */

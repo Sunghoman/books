@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <title>Book Club</title>
+        <link rel="stylesheet" href="./static/home/style.css">
+        <script>
+            function search(){
+                $(".cards").empty();
+
+                let title = document.getElementById("api_input").value
+                $.ajax({
+                    type: "GET",
+                    url: "https://dapi.kakao.com/v3/search/book?target=title",
+                    data: { query: title, size:12 },
+                    headers: { Authorization: "KakaoAK 937f2d48752f190fb8cc657c14169897" }
+                })
+                    .done(function (msg){
+                        console.log(msg["documents"])
+                        let rows = msg["documents"]
+                        for (let i = 0; i < rows.length; i++) {
+                            let title = rows[i]["title"]
+                            let authors = rows[i]["authors"]
+                            let image = rows[i]["thumbnail"]
+                            let url = rows[i]["url"]
+
+                            let temp_html = `
+                                <a style="text-decoration: none; color: black" href="${url}" target="_blank"><div class="card">
+                                    <div class="card-header">
+                                        <img src="${image}" alt="rover" />
+                                    </div>
+                                    <div class="card-body">
+                                        <span id="card_author" class="tag tag-pink">${authors}</span>
+                                        <h4 class="card_title">
+                                            ${title}
+                                        </h4>
+                                    </div>
+                                </div></a>
+                            `
+                            $(".cards").append(temp_html)
+                        }
+                    })
+            }
+
+            function filter(){
+                let search = document.getElementById("searchBar").value.toLowerCase();
+                let card = document.getElementsByClassName("card");
+
+                for (let i = 0; i < card.length; i++){
+                    let card_title = card[i].getElementsByClassName("card_title");
+                    let card_name = card[i].getElementsByClassName("card_name");
+                    let card_author = card[i].getElementsByClassName("tag tag-pink");
+
+                    if (card_title[0].innerHTML.toLowerCase().includes(search) || card_name[0].innerHTML.toLowerCase().includes(search) || card_author[0].innerHTML.toLowerCase().includes(search)) {
+                        card[i].style.display = "grid"
+                    } else {
+                        card[i].style.display = "none"
+                    }
+                }
+            }
+
+        </script>
+    </head>
+    <body>
+        <nav role="navigation">
+            <div id="menuToggle">
+                <input type="checkbox">
+                <span></span>
+                <span></span>
+                <span></span>
+                <ul id="menu">
+                    <hr>
+                    <a href="/"><li>Home</li></a>
+                    <a href="/api"><li>API Search</li></a>
+                    <a href="/about"><li>About</li></a>
+                </ul>
+            </div>
+        </nav>
+        <div class="container">
+            <input id="searchBar" class="searchbar" type="text" onkeyup="filter()" placeholder="Search...">
+            <a id="btnSearch" class="btn-search"><i class="fa fa-search"></i></a>
+        </div>
+        <div class="title">
+            <a href="/" style="text-decoration: none"><h1 style="font-size: 52px; color: tomato; text-shadow: 2px 2px 2px darkred">BOOK CLUB.</h1></a>
+            <form action="" class="api_search">
+                <input id="api_input" class="api_input" type="search" autocomplete="off" required>
+                <i class="fa fa-search" onclick="search()"></i>
+            </form>
+        </div>
+
+        <div class="cards">
+        </div>
+    </body>
+</html>
