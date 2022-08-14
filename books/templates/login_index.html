@@ -84,35 +84,6 @@
                     }
                 }
             }
-
-            function register() {
-                let email = document.getElementById("register-email").value
-                let username = document.getElementById("register-username").value
-                let password = document.getElementById("register-password").value
-                let pwConfirm = document.getElementById("register-password-confirm").value
-
-                if (password != pwConfirm) {
-                    alert("입력하신 정보를 다시 확인 바랍니다.")
-                    window.location.reload()
-                } else {
-                    $.ajax({
-                        type: "POST",
-                        url: "/register",
-                        data: { email_give: email, username_give: username, password_give: password },
-                        success: function (res) {
-                            alert("회원가입이 완료 되었습니다.")
-                            window.location.reload()
-                        }
-                    })
-                }
-            }
-
-            function login() {
-                let id = document.getElementById("login-username").value
-                alert(id + " 님 환영합니다.")
-                window.location.reload()
-            }
-
         </script>
     </head>
     <body>
@@ -124,7 +95,9 @@
                 <span></span>
                 <span></span>
                 <ul id="menu">
-                    <a id="login-show"><h3>로그인하세요</h3></a>
+                    {% if session["username"] %}
+                    <a><h3>session["username"]님 반갑습니다.</h3></a>
+                    {% endif %}
                     <hr>
                     <a href="/"><li>Home</li></a>
                     <a href="/api"><li>API Search</li></a>
@@ -150,7 +123,7 @@
             </span>
             <button class="button" id="post-show">Posting</button>
         </div>
-        <!-- 타이틀 끝 -->
+        <!-- 타이틀 시작 -->
 
         <!-- 로그인 Modal 시작 -->
         <div class="background-login">
@@ -168,14 +141,14 @@
                         <form>
                             <div class="user-box">
                                 <p class="login-label">Username</p>
-                                <input type="text" id="login-username">
+                                <input type="text">
                             </div>
                             <div class="user-box">
                                 <p class="login-label">Password</p>
-                                <input type="password" id="login-password">
+                                <input type="password">
                             </div>
                             <div>
-                                <a href="#" class="submit" onclick="login()" type="submit">Submit</a>
+                                <a href="#" class="submit">Submit</a>
                             </div>
                         </form>
                         <a href="#" class="sign-up" id="register-show">Sign Up →</a>

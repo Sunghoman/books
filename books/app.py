@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request, jsonify, session, redirect, url_for
+from flask import *
 import requests
 from bs4 import BeautifulSoup
 app = Flask(__name__)
+app.secret_key = "We_Go"
 
 from pymongo import MongoClient
 client = MongoClient('mongodb+srv://sungho:1464@cluster0.xcve6.mongodb.net/?retryWrites=true&w=majority')
@@ -9,9 +10,11 @@ db = client.sungho
 
 @app.route('/')
 def home():
-    if "username" in session:
-        return "You are logged in as" + session["username"]
-    return render_template('index.html')
+    return render_template("index.html")
+
+@app.route('/login', methods=["POST"])
+def login():
+    return "hello"
 
 @app.route('/book', methods=["POST"])
 def book_post():
@@ -54,21 +57,24 @@ def about():
 def api():
     return render_template('api.html')
 
-@app.route("/register", methods=["POST"])
+@app.route("/register", methods=["GET","POST"])
 def register():
     username_receive = request.form["username_give"]
     password_receive = request.form["password_give"]
     email_receive = request.form["email_give"]
 
-    doc = {
-        "username": username_receive,
-        "password": password_receive,
-        "email": email_receive
-    }
+    users = db.books_users
+    existing_user = users.find_one({"name": username_receive})
 
-    db.books_users.insert_one(doc)
-    return jsonify({"result":"success"})
+    if existing_user is None:
+        doc = {
+            "username": username_receive,
+            "password": password_receive,
+            "email": email_receive
+        }
 
+        db.books_users.insert_one(doc)
+        return jsonify({"result": "success"})
 
 if __name__ == '__main__':
    app.run('0.0.0.0',port=5000,debug=True)

@@ -21,7 +21,7 @@ body
   user-select: none;
 }
 
-#menuToggle a
+#menuToggle a, h3
 {
   text-decoration: none;
   color: #232323;
@@ -32,6 +32,10 @@ body
 #menuToggle a:hover
 {
   color: tomato;
+}
+#menuToggle h3:hover {
+    color: tomato;
+    cursor: pointer;
 }
 
 #menuToggle input
